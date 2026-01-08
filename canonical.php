@@ -2,6 +2,17 @@
 	/* TODO:
 	. User editor
 	*/
+	function makeToken()
+	{
+		if (function_exists('openssl_random_pseudo_bytes'))
+			return bin2hex(openssl_random_pseudo_bytes(40));
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < 80; $i++)
+			$randomString .= $characters[rand(0, $charactersLength - 1)];
+		return $randomString;
+	}
 	function mtyp($fn)
 	{
 		$all_types = array(
@@ -444,18 +455,6 @@ try {
 				}
 			}
 		}
-	}
-
-	function makeToken()
-	{
-		if (function_exists('openssl_random_pseudo_bytes'))
-			return bin2hex(openssl_random_pseudo_bytes(40));
-		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$charactersLength = strlen($characters);
-		$randomString = '';
-		for ($i = 0; $i < 80; $i++)
-			$randomString .= $characters[rand(0, $charactersLength - 1)];
-		return $randomString;
 	}
 }
 catch(PDOException $e)
