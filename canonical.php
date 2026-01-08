@@ -57,8 +57,8 @@
 		const Forgot = 5;
 	};
 	require "canoniconfig.php";
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
+	//ini_set('display_errors', 1);
+	//ini_set('display_startup_errors', 1);
 	error_reporting(E_ALL);
 	$curcat = isset($_GET["cat"]) ? $_GET["cat"] : NULL;
 	$curprod = isset($_GET["prod"]) ? $_GET["prod"] : NULL;
