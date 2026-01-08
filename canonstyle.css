@@ -1,0 +1,117 @@
+/* styles.css */
+
+/* Global styles */
+body {
+    color: #ffffff;
+}
+
+a {
+    text-decoration: none;
+    color: #ffff00;
+}
+
+a:visited {
+    color: #1affff;
+}
+
+a:active {
+    color: #1affff;
+}
+
+/* Header and navigation */
+.header-container {
+    background-color: #070e4a;
+}
+
+.app-title {
+    color: cyan;
+}
+
+.info-icon {
+    color: grey;
+    font-size: smaller;
+}
+
+/* Category lists */
+.primary-category {
+    color: #4eb8bf;
+}
+
+.secondary-category {
+    color: lightblue;
+}
+
+.selected-category {
+    color: #7bdce3;
+}
+
+.model-link {
+    color: white;
+}
+
+.variations-count {
+    color: #7bdce3;
+    font-size: smaller;
+}
+
+/* Sections */
+.category-header {
+    background-color: #4eb8bf;
+    color: black;
+}
+
+.note-section {
+    background-color: #7bdce3;
+    color: black;
+}
+
+.model-section {
+    background-color: #8bccf3;
+    color: black;
+}
+
+.variation-section {
+    background-color: #9bdcf3;
+}
+
+.variation-text {
+    color: #3c3c3c;
+}
+
+/* Text utilities */
+.owner-text {
+    color: white;
+    font-size: smaller;
+}
+
+.unverified-text {
+    color: yellow;
+}
+
+.edit-link {
+    color: grey;
+    font-size: smaller;
+}
+
+.success-message {
+    color: green;
+}
+
+.error-message {
+    color: red;
+}
+
+.nav-link {
+    color: darkblue;
+    font-size: smaller;
+}
+
+.photo-description {
+    color: lightgrey;
+    font-size: medium;
+}
+
+.login-text {
+    color: lightblue;
+    font-size: smaller;
+}
