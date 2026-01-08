@@ -459,13 +459,11 @@ try {
 }
 catch(PDOException $e)
 {
-			error_log("Database error: " . $e->getMessage() . " in " . $e->getFile() . ":" . $e->getLine());
-			
-			// Show user a generic message
-			echo '<HTML><BODY><h2>Service Temporarily Unavailable</h2>';
-			echo '<p>We are experiencing technical difficulties. Please try again later.</p>';
-			echo '</BODY></HTML>';
-			exit(500); // Use proper HTTP status code
+	error_log("Database error: " . $e->getMessage() . " in " . $e->getFile() . ":" . $e->getLine());
+	echo '<HTML><BODY><h2>Service Temporarily Unavailable</h2>';
+	echo '<p>We are experiencing technical difficulties. Please try again later.</p>';
+	echo '</BODY></HTML>';
+	exit(500); // Use proper HTTP status code
 }
 function atLinkFix($txt)
 {
@@ -508,21 +506,21 @@ function atLinkFix($txt)
 ?>
 <HTML>
 <HEAD>
-<TITLE>$CANON_APP_NAME</TITLE>
-<link rel="stylesheet" href="styles.css">
+<TITLE><?php echo $CANON_APP_NAME ?></TITLE>
+<link rel="stylesheet" href="canonstyle.css">
 <STYLE>
 A { text-decoration: none; }
 </STYLE>
 </HEAD>
-<body background = "$CANON_IMG_BACKGROUND">
+<body background = "<?php echo $CANON_IMG_BACKGROUND ?>">
 <TABLE class="header-container" BORDER=1 CELLPADDING=0 CELLSPACING=0 WIDTH=100%><tr><td>
 <TABLE class="header-container" BORDER=0 WIDTH=100%>
   <tr>
   <td width=5%>
-	<a href="index.html"><img src="$CANON_IMG_TINYLOGO"></a>
+	<a href="<?php echo $CANON_WEB_HOST?>"><img width=32 height=32 src="<?php echo $CANON_IMG_TINYLOGOL ?>"></a>
   </td>
   <TD colspan=5 align=center>
-  <h2><a href="?" style="text-decoration-line: none"><FONT class="app-title">$CANON_APP_BANNER_NAME</FONT></a>
+  <h2><a href="?" style="text-decoration-line: none"><FONT class="app-title"><?php echo $CANON_APP_BANNER_NAME ?></FONT></a>
   <?php
 	if(isset($_GET['info']) && ($_GET['info'] == 1))
 	{
@@ -550,17 +548,14 @@ A { text-decoration: none; }
   ?>
   </h2></TD>
   <td width=5% ALIGN=RIGHT>
-	<a href="/index.html"><img src="<?php echo $CANON_WEB_LOGO; ?>"></a>
+	<a href="<?php echo $CANON_WEB_HOST?>"><img WIDTH=32 HEIGHT=32 src="<?php echo $CANON_IMG_TINYLOGOR; ?>"></a>
   </td>
   </TR>
 </TABLE></TD></TR></TABLE>
 <TABLE BORDER=1 WIDTH=100%>
 <TR><TD WIDTH=30% VALIGN=TOP>
 	<?php
-		require("/usr/share/php/libphp-phpmailer/autoload.php");
-		require("/usr/share/php/libphp-phpmailer/src/Exception.php");
-		require("/usr/share/php/libphp-phpmailer/src/PHPMailer.php");
-		require("/usr/share/php/libphp-phpmailer/src/SMTP.php");
+	    require 'vendor/autoload.php';
 		use PHPMailer\PHPMailer\PHPMailer;
 		use PHPMailer\PHPMailer\SMTP;
 		use PHPMailer\PHPMailer\Exception;
@@ -1365,14 +1360,10 @@ A { text-decoration: none; }
 	<?php
 		$firstmodelthiscat = '';
 		foreach(array(1, 0) as $p):
-			$catcatcolor = '#4eb8bf';
 			if($p == 1)
-				echo '<h3>Produced in Some Quantities';
+				echo '<h3 class="group1-header">Produced in Some Quantities';
 			else
-			{
-				echo '<P><h3>Products Not Released';
-				$catcatcolor = 'LIGHTBLUE';
-			}
+				echo '<P><h3 class="group2-header">Products Not Released';
 			if($editflag==1)
 			{
 				if(($command == 'ADDCAT')&&($privs > 1)&&($curprod==$p))
@@ -1496,7 +1487,7 @@ A { text-decoration: none; }
 				echo '</UL>'."\n";
 			}
 			else
-						echo '<FONT class="'.($p == 1 ? 'primary-category' : 'secondary-category').'">'.htmlentities($icat)."</FONT></a><br>\n";
+				echo '<FONT class="'.($p == 1 ? 'primary-category' : 'secondary-category').'">'.htmlentities($icat)."</FONT></a><br>\n";
 		}
 		echo '</FONT>'."\n";
 		endforeach;
@@ -1510,23 +1501,24 @@ A { text-decoration: none; }
 			echo '<FORM NAME="fogging" ACTION="canonical.php" METHOD=POST>';
 		echo '<INPUT TYPE=HIDDEN NAME=csrf_token VALUE="' . $_SESSION['csrf_token'] . '">';
 	?>
-		<FONT class="primary-category">
-		<TABLE WIDTH=100% BORDER=0>
+	<FONT class="primary-category">
+	<TABLE WIDTH=100% BORDER=0>
 	<?php
 		if($curname == '')
 		{
 			if($command == 'NEWACCT')
 			{
-				echo '<TR><TD><a name="login">Name:</a></TD><TD><INPUT TYPE=TEXT NAME="newname" SIZE=15></TD></TR>';
-				echo '<TR><TD>Email:</TD><TD><INPUT TYPE=TEXT NAME="newemail" SIZE=15></TD></TR>';
-				echo '<TR><TD>Private</TD><TD><INPUT TYPE=CHECKBOX NAME="newprivate">Be an unlisted owner</TD></TR>';
+				echo '<TR><TD><a name="login"><FONT CLASS="field-label">Name:</FONT></a></TD><TD WIDTH=85%><INPUT TYPE=TEXT NAME="newname" SIZE=15></TD></TR>';
+				echo '<TR><TD><FONT CLASS="field-label">Email:</FONT></TD><TD><INPUT TYPE=TEXT NAME="newemail" SIZE=15></TD></TR>';
+				echo '<TR><TD><FONT CLASS="field-label">Private</FONT></TD>';
+                echo '<TD COLSPAN=2><INPUT TYPE=CHECKBOX NAME="newprivate"><FONT CLASS="field-label">Be an unlisted owner</FONT></TD></TR>';
 				echo '<TR><TD COLSPAN=2><INPUT TYPE=SUBMIT VALUE=Create></TD></TR>'."\n";
 			}
 			else
 			{
-				echo '<TR><TD><a name="login">Email:</a></TD><TD><INPUT TYPE=TEXT NAME="email" SIZE=15></TD></TR>';
-				echo '<TR><TD>Pass:</TD><TD><INPUT TYPE=PASSWORD NAME="password" SIZE=10>';
-				echo '&nbsp;&nbsp;<INPUT TYPE=CHECKBOX NAME=forgot>Forgot';
+				echo '<TR><TD><a name="login"><FONT CLASS="field-label">Email:</FONT></a></TD><TD WIDTH=85%><INPUT TYPE=TEXT NAME="email" SIZE=15></TD></TR>';
+				echo '<TR><TD><FONT CLASS="field-label">Pass:</FONT></TD><TD><INPUT TYPE=PASSWORD NAME="password" SIZE=10></TD></TR>';
+				echo '<TR><TD></TD><TD><INPUT TYPE=CHECKBOX NAME=forgot><FONT CLASS="field-label">Forgot</FONT>';
 				echo '</TD></TR>';
 				echo '<TR><TD COLSPAN=2><INPUT TYPE=SUBMIT VALUE=Login></TD></TR>'."\n";
 				echo '<TR><TD COLSPAN=2><a href="?'.$urlenc.'&command=NEWACCT#login"><FONT class="primary-category">Create new account</a></TD></TR>'."\n";
@@ -1534,8 +1526,8 @@ A { text-decoration: none; }
 		}
 		else
 		{
-			echo '<TR><TD COLSPAN=2>Change your password</TD></TR>';
-			echo '<TR><TD>New Pass:</TD><TD><INPUT TYPE=PASSWORD NAME="newpassword" SIZE=10></TD></TR>';
+			echo '<TR><TD COLSPAN=2><FONT CLASS="field-label">Change your password</FONT></TD></TR>';
+			echo '<TR><TD><FONT CLASS="field-label">New Pass:</FONT></TD><TD WIDTH=85%><INPUT TYPE=PASSWORD NAME="newpassword" SIZE=10></TD></TR>';
 			echo '<TR><TD COLSPAN=2><INPUT TYPE=SUBMIT VALUE=Change></TD></TR>'."\n";
 		}
 	?>

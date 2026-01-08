@@ -2,8 +2,9 @@
 $CANON_APP_NAME="Your Apps Name";
 $CANON_APP_BANNER_NAME="Your Apps Name!";
 $CANON_WEB_HOST="http://yourdomain.com/canonical/";
-$CANON_IMG_BACKGROUND="";
-$CANON_IMG_TINYLOGO="";
+$CANON_IMG_BACKGROUND="background.png";
+$CANON_IMG_TINYLOGOL="tinylogo.png";
+$CANON_IMG_TINYLOGOR="tinylogo.png";
 
 $CANON_MAIL_FROM_NAME="Your Name";
 $CANON_MAIL_FROM_ADDRESS="your@email.com";

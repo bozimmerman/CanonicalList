@@ -106,9 +106,24 @@ a:active {
     font-size: smaller;
 }
 
+.field-label {
+    color: yellow;
+    font-size: medium;
+}
+
 .photo-description {
     color: lightgrey;
     font-size: medium;
+}
+
+.group1-header {
+    color: white;
+    font-size: large;
+}
+
+.group2-header {
+    color: white;
+    font-size: large;
 }
 
 .login-text {
