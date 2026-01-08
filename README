@@ -1,2 +1,179 @@
-Canonical List 1.0 (C)2026 Bo Zimmerman
-Please read the LICENSE file for license information
+# Canonical List
+ 
+**Version 1.0** | Copyright 2026 Bo Zimmerman
+ 
+A comprehensive web-based catalog management system for organizing and displaying hierarchical product information with photo galleries, user authentication, and owner tracking capabilities.
+ 
+## Overview
+ 
+Canonical List is a PHP/MySQL application that allows communities to build and maintain structured catalogs of products organized by categories, models, and variations. It includes user authentication, photo management with approval workflows, owner registries, and customizable text-based catalog generation.
+ 
+## Features
+ 
+- **Hierarchical Catalog Structure**: Organize items by Category → Product → Model → Variation
+- **User Account Management**:
+  - User registration and login system
+  - Password recovery via email
+  - Access control levels
+  - Private account options
+- **Photo Gallery Management**:
+  - Upload and associate photos with specific models/variations
+  - Automatic thumbnail generation (400px width)
+  - Photo approval workflow
+  - Support for JPG, PNG, and GIF formats
+- **Owner Registry**: Track who owns which models with optional serial numbers and verification photos
+- **Search Functionality**: Search across the catalog
+- **Activity Logging**: Track user actions and system events
+- **Text-Based Catalog Export**: Generate formatted 79-column text listings
+- **Security Features**:
+  - CSRF protection
+  - Rate limiting/throttling by IP and email
+  - Secure session management
+ 
+## Requirements
+ 
+- **PHP** 5.5+ with the following extensions:
+  - PDO (MySQL)
+  - GD (for image processing)
+  - OpenSSL (recommended for secure token generation)
+  - Session support
+- **MySQL** 5.6+ or MariaDB 10.0+
+- **Web Server**: Apache or Nginx with PHP support
+- **SMTP Server**: For email functionality (password resets, notifications)
+ 
+## Installation
+ 
+### 1. Clone or Download the Repository
+ 
+```bash
+git clone <repository-url>
+cd CanonicalList
+```
+ 
+### 2. Configure the Application
+ 
+Copy the configuration template and edit it with your settings:
+ 
+```bash
+cp canoniconfig.php canoniconfig-local.php
+
+```
+ 
+Edit `canoniconfig.php` and set the following:
+ 
+```php
+$CANON_APP_NAME = "Your Application Name";
+$CANON_APP_BANNER_NAME = "Your Banner Text";
+$CANON_WEB_HOST = "http://yourdomain.com/canonical/";
+ 
+// Email Configuration
+$CANON_MAIL_FROM_NAME = "Your Name";
+$CANON_MAIL_FROM_ADDRESS = "noreply@yourdomain.com";
+$CANON_MAIL_SMTP_HOST = "smtp.yourdomain.com";
+$CANON_MAIL_SMTP_PORT = 587;
+$CANON_MAIL_SMTP_AUTH_USERNAME = "your_smtp_username";
+$CANON_MAIL_SMTP_AUTH_PASSWORD = "your_smtp_password";
+$CANON_MAIL_SMTP_SECURE_TYPE = "tls"; // or "ssl"
+ 
+// Database Configuration
+$CANON_DB_HOST = "localhost";
+$CANON_DB_PREFIX = ""; // Optional prefix for database name
+$CANON_DB_USER = "your_db_username";
+$CANON_DB_PASSWORD = "your_db_password";
+ 
+// Branding (optional - customize your images)
+$CANON_IMG_BACKGROUND = "background.png";
+$CANON_IMG_TINYLOGOL = "tinylogo.png";
+$CANON_IMG_TINYLOGOR = "tinylogo.png";
+```
+ 
+### 3. Create the Database
+ 
+Run the database creation script:
+ 
+```bash
+php canoncreate.php
+```
+ 
+This will create:
+- Database: `canonical` (or `{prefix}canonical` if you set a prefix)
+- Tables: `PHOTOS`, `VISLOG`, `LASTUPDATE`, `NOTE`, `CAT`, `ENTRY`, `OWNER`, `OWNERS`, `TOKEN`, `THROTTLE`
+ 
+**Note**: The script will exit if the database already exists to prevent accidental data loss.
+ 
+### 4. Set Up Web Server
+ 
+Configure your web server to serve the application directory. Ensure `index.php` is set as a directory index.
+ 
+**Apache Example** (`.htaccess`):
+```apache
+DirectoryIndex index.php
+```
+ 
+**Nginx Example**:
+```nginx
+location /canonical/ {
+    index index.php;
+    try_files $uri $uri/ /canonical/index.php?$query_string;
+}
+```
+ 
+### 5. Set Permissions
+ 
+Ensure the web server has read access to all files and write access to the session directory (typically handled by PHP configuration).
+ 
+### 6. Initial Setup
+ 
+1. Navigate to your application URL (e.g., `http://yourdomain.com/canonical/`)
+2. Create the first admin account
+3. Begin adding categories, products, and models
+
+## Usage
+ 
+### For Users
+ 
+- **Browse the Catalog**: Navigate through categories and models
+- **Search**: Use the search function to find specific items
+- **Create Account**: Register to contribute photos and track ownership
+- **Upload Photos**: Submit photos for models (requires approval)
+- **Track Ownership**: Register the models you own with serial numbers
+ 
+### For Administrators
+ 
+- **Manage Categories**: Create and organize product categories
+- **Approve Photos**: Review and approve user-submitted photos
+- **Verify Entries**: Mark entries as verified for authenticity
+- **Manage Users**: Control user access levels
+- **Export Catalog**: Generate formatted text listings
+ 
+## Database Schema
+ 
+The application uses the following main tables:
+ 
+- **CAT**: Product categories
+- **ENTRY**: Individual model entries with variations
+- **PHOTOS**: Photo gallery with approval status
+- **OWNER**: User accounts
+- **OWNERS**: Ownership registry linking users to models
+- **TOKEN**: Authentication tokens for password reset
+- **THROTTLE**: Rate limiting records
+- **VISLOG**: Activity log
+- **NOTE**: Category and product notes
+- **LASTUPDATE**: Catalog update timestamp
+ 
+## Security Considerations
+ 
+- Change default database credentials before deployment
+- Use HTTPS in production (update `$CANON_WEB_HOST` to use `https://`)
+- Regularly update PHP and MySQL to latest stable versions
+- Review and adjust rate limiting settings in `TypeLimit` class
+- Keep session configuration secure
+- Consider implementing additional backup strategies
+ 
+## License
+ 
+Licensed under the Apache License, Version 2.0. See the [LICENSE](LICENSE) file for details.
+ 
+## Support
+ 
+For issues, questions, or contributions, please contact Bo Zimmerman or file an issue in the project repository.

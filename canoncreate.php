@@ -167,6 +167,10 @@ try {
     ");
     echo "Table TOKEN created.\n";
     
+    $pdo->exec("INSERT INTO NOTE (HEADER, DESCRIP) VALUES ('INTRO', 'Your introduction');");
+    $pdo->exec("INSERT INTO NOTE (HEADER, DESCRIP) VALUES ('NOTES', 'Your notes');");
+    $pdo->exec("INSERT INTO NOTE (HEADER, DESCRIP) VALUES ('QUESTIONS', 'Your questions');");
+    
     echo "All tables created successfully.\n";
 
 } catch (PDOException $e) {

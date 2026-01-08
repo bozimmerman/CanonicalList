@@ -741,8 +741,15 @@ A { text-decoration: none; }
 						echo '<FONT class="error-message">Too many account creations today.</FONT><BR>';
 						goto skip_create;
 					}
-					$stmt = $pdo->prepare("INSERT INTO OWNER (NAME,EMAIL,PASSWORD,ACCESS,PRIVATE,CODE) VALUES (:nm, :em, '', 0, :pv, '')");
-					$stmt->execute(array(':nm' =>$aname, ':em' =>$aemail, ':pv' =>$private));
+					$checkStmt = $pdo->query("SELECT COUNT(*) as C FROM OWNER");
+					$adminLevel = 0;
+					if($checkRow = $checkStmt->fetch())
+					{
+						if($checkRow["C"] == 0)
+							$adminLevel = 2; // first user gets admin privileges
+					}
+					$stmt = $pdo->prepare("INSERT INTO OWNER (NAME,EMAIL,PASSWORD,ACCESS,PRIVATE,CODE) VALUES (:nm, :em, '', :ac, :pv, '')");
+					$stmt->execute(array(':nm' =>$aname, ':em' =>$aemail, ':ac' =>$adminLevel, ':pv' =>$private));
 					$stmt = $pdo->prepare("DELETE FROM TOKEN WHERE NAME=:nm");
 					$stmt->execute(array(':nm' =>$aname));
 					$randomString = makeToken();
@@ -1348,7 +1355,7 @@ A { text-decoration: none; }
 				$usetab = $_POST["USETABLE"];
 				if ($usetab ==  'NOTE')
 				{
-					$istmt = $pdo->prepare("UPDATE NODE SET DESCRIP=:de WHERE HEADER=:nm");
+					$istmt = $pdo->prepare("UPDATE NOTE SET DESCRIP=:de WHERE HEADER=:nm");
 					$istmt->execute(array(':nm' =>$curcat."_".$curprod, ':de' => $newnote));
 				}
 				else
