@@ -699,7 +699,8 @@ A { text-decoration: none; }
 							} 
 							catch (Exception $e) 
 							{
-								echo "<FONT class=\"error-message\">Mailer Error: " . $mail->ErrorInfo . "</FONT><BR>\n";
+							    error_log("Mail error for user: " . $mail->ErrorInfo);
+							    echo '<FONT class="error-message">Unable to send email. Please try again later or contact support.</FONT><BR>';
 							}
 						}
 					}
