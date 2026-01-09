@@ -2159,7 +2159,7 @@ A { text-decoration: none; }
 			}
 			else
 			{
-				$stmt = $pdo->prepare("SELECT MODEL,VARI,SHORTBLURB FROM (SELECT MODEL,COUNT(VARI) AS VARI, SHORTBLURB FROM ENTRY WHERE CATNAME=:nm AND PRODUCED=:pd GROUP BY MODEL) AS T ORDER BY MODEL,VARI ");
+				$stmt = $pdo->prepare("SELECT MODEL,VARI,SHORTBLURB FROM (SELECT MODEL,COUNT(VARI) AS VARI, SHORTBLURB FROM ENTRY WHERE CATNAME=:nm AND PRODUCED=:pd GROUP BY MODEL, SHORTBLURB) AS T ORDER BY MODEL,VARI ");
 				$stmt->execute(array(':nm' =>$curcat, ':pd' => $curprod));
 				while ($row = $stmt->fetch())
 				{
