@@ -70,6 +70,10 @@ a:active {
     color: black;
 }
 
+.model-line {
+    color: #8bccf3;
+}
+
 .variation-section {
     background-color: #9bdcf3;
 }
