@@ -442,12 +442,12 @@ try {
 						$curname = '';
 						$privs = 0;
 						unset($_COOKIE["canon_session"]);
-						setcookie('canon_session', null, -1, '/', '', false, true, 'Lax');
+						setcookie('canon_session', null, -1, '/', '', false, true);
 					}
 					else
 					if(($cookiecookie == null) && ($getcookie != null))
 					{
-					    setcookie('canon_session', $getcookie, (time()+42150), '/', '', false, true, 'Lax');
+					    setcookie('canon_session', $getcookie, (time()+42150), '/', '', false, true);
 						// they have a perm token now
 						$stmt = $pdo->prepare("UPDATE TOKEN SET EXPIRE=:ex WHERE NAME=:nm");
 						$stmt->execute(array(':ex' =>(time()+42150), ':nm' =>$tmpname));
@@ -600,7 +600,7 @@ A { text-decoration: none; }
 					$randomString = makeToken();
 					$stmt = $pdo->prepare("INSERT INTO TOKEN (TOKEN,NAME,EXPIRE) VALUES (:tk,:nm,:ep)");
 					$stmt->execute(array(':nm' =>$curname, ':tk' =>$randomString, ':ep' =>(time()+42150)));
-					setcookie('canon_session', $randomString, (time()+42150), '/', '', false, true, 'Lax');
+					setcookie('canon_session', $randomString, (time()+42150), '/', '', false, true);
 					$getcookie = null;
 					$cookiecookie = $randomString;
 				}
@@ -732,7 +732,7 @@ A { text-decoration: none; }
 			{
 				if((!isset($_COOKIE["canon_newacct"])) || ($_COOKIE["canon_newacct"] == ''))
 				{
-				    setcookie('canon_newacct', 'boo!',time()+83400, '/', '', false, true, 'Lax');
+				    setcookie('canon_newacct', 'boo!',time()+83400, '/', '', false, true);
 					$pdo->query("DELETE FROM THROTTLE WHERE EXPIRE < ".time());
 					$stmt = $pdo->prepare("SELECT COUNT(*) C FROM THROTTLE WHERE TYPE=:ty AND IP=:ip AND EXPIRE > :tm");
 					$stmt->execute(array(':ty' => CanonType::Account, ':ip' => $userip, ':tm' => time()));
