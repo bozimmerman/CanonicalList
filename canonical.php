@@ -2169,7 +2169,7 @@ A { text-decoration: none; }
 					if ($row["VARI"] > 1)
 								echo '&nbsp;&nbsp;<FONT class="variations-count">('.htmlentities($row["VARI"]).')</FONT>';
 					echo "</TD>";
-					echo "<TD><FONT class=\"model-section\">".htmlentities($row["SHORTBLURB"])."</FONT></TD>";
+					echo "<TD><FONT class=\"model-line\">".htmlentities($row["SHORTBLURB"])."</FONT></TD>";
 					echo "</TR>\n";
 				}
 				if($editflag == 1)
