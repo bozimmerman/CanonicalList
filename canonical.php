@@ -230,7 +230,7 @@ try {
 	function doGroup($curprod)
 	{
 		global $pdo;
-		$spaces = '																		   ';
+		$spaces = '                                                                    	   ';
 		$cstmt = $pdo->prepare("SELECT CATNAME FROM CAT WHERE PRODUCED=:pd ORDER BY ORDINAL");
 		$cstmt->execute(array(':pd' =>$curprod));
 		while($cat = $cstmt->fetch())
@@ -393,7 +393,7 @@ try {
 		while($row = $stmt->fetch()) 
 		{
 			echo substr($row['CODE'].'   ',0,2);
-			echo "	";
+			echo "    ";
 			if($eol)
 			{
 				echo $row['NAME'];
@@ -402,7 +402,7 @@ try {
 			}
 			else
 			{
-				echo substr($row['NAME'].'											 ',0,32);
+				echo substr($row['NAME'].'                                             ',0,32);
 				echo "  ";
 				$eol = true;
 			}
