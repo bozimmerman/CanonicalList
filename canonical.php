@@ -569,7 +569,13 @@ A { text-decoration: none; }
 <TABLE BORDER=1 WIDTH=100%>
 <TR><TD WIDTH=30% VALIGN=TOP>
 	<?php
-	    require 'vendor/autoload.php';
+		$loaded = @include_once 'vendor/autoload.php';
+		if (!$loaded) {
+			$loaded = @include_once 'libphp-phpmailer/autoload.php';
+		}
+		if (!$loaded) {
+			die('PHPMailer not found in include_path');
+		}
 		use PHPMailer\PHPMailer\PHPMailer;
 		use PHPMailer\PHPMailer\SMTP;
 		use PHPMailer\PHPMailer\Exception;
