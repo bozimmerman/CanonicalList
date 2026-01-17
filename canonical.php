@@ -429,11 +429,12 @@ try {
 			$tmpname = $row["NAME"];
 			if(time() < $row["EXPIRE"])
 			{
-				$stmt = $pdo->prepare("SELECT ACCESS FROM OWNER WHERE NAME=:nm");
+				$stmt = $pdo->prepare("SELECT ACCESS, EMAIL FROM OWNER WHERE NAME=:nm");
 				$stmt->execute(array(':nm' =>$tmpname));
 				if($row = $stmt->fetch()) 
 				{
 					$privs = $row["ACCESS"];
+					$aemail = $row['EMAIL'];
 					$curname = $tmpname;
 					if($command == 'LOGOUT')
 					{
@@ -588,13 +589,13 @@ A { text-decoration: none; }
 			$aemail = $_POST['email'];
 			$pdo->query("DELETE FROM THROTTLE WHERE EXPIRE < ".time());
 			$stmt = $pdo->prepare("SELECT COUNT(*) C FROM THROTTLE WHERE TYPE=:ty AND EMAIL=:em AND EXPIRE > :tm");
-			$stmt->execute(array(':ty' => CanonType::Login, ':em' => $_POST['email'], ':tm' => time()));
+			$stmt->execute(array(':ty' => CanonType::Login, ':em' => $aemail, ':tm' => time()));
 			if(($row = $stmt->fetch())  && ($row["C"] >= TypeLimit::Login))
 				echo '<FONT class="error-message">Too many login attempts today.</FONT><BR>';
 			else
 			{
 				$stmt = $pdo->prepare("SELECT NAME,ACCESS FROM OWNER WHERE EMAIL=:em AND PASSWORD=:pw");
-				$stmt->execute(array(':em' =>$_POST["email"], ':pw' =>$_POST["password"]));
+				$stmt->execute(array(':em' =>$aemail, ':pw' =>$_POST["password"]));
 				if($row = $stmt->fetch()) 
 				{
 					$privs = $row["ACCESS"];
@@ -602,7 +603,7 @@ A { text-decoration: none; }
 					$stmt = $pdo->prepare("DELETE FROM TOKEN WHERE NAME=:nm");
 					$stmt->execute(array(':nm' =>$curname));
 					$stmt = $pdo->prepare("DELETE FROM THROTTLE WHERE TYPE<:ty AND EMAIL=:em OR IP=:ip"); // login cures much
-					$stmt->execute(array(':ty' => CanonType::Account, ':em' => $_POST['email'], ':ip' => $userip));
+					$stmt->execute(array(':ty' => CanonType::Account, ':em' => $aemail, ':ip' => $userip));
 					$randomString = makeToken();
 					$stmt = $pdo->prepare("INSERT INTO TOKEN (TOKEN,NAME,EXPIRE) VALUES (:tk,:nm,:ep)");
 					$stmt->execute(array(':nm' =>$curname, ':tk' =>$randomString, ':ep' =>(time()+42150)));
@@ -645,7 +646,7 @@ A { text-decoration: none; }
 				$aemail = $_POST['email'];
 				$pdo->query("DELETE FROM THROTTLE WHERE EXPIRE < ".time());
 				$stmt = $pdo->prepare("SELECT COUNT(*) C FROM THROTTLE WHERE TYPE=:ty AND EMAIL=:em AND EXPIRE > :tm");
-				$stmt->execute(array(':ty' => CanonType::Forgot, ':em' => $_POST['email'], ':tm' => time()));
+				$stmt->execute(array(':ty' => CanonType::Forgot, ':em' => $aemail, ':tm' => time()));
 				if(($row = $stmt->fetch())  && ($row["C"] >= TypeLimit::Forgot))
 					echo '<FONT class="error-message">Too many forgot pw attempts today.</FONT><BR>';
 				else
